@@ -1,8 +1,8 @@
-import { getConfig } from '@edx/frontend-platform';
+import { getConfig } from "@edx/frontend-platform";
 
-import urls from 'data/services/lms/urls';
+import urls from "data/services/lms/urls";
 
-import messages from './messages';
+import messages from "./messages";
 
 const getLearnerHeaderMenu = (
   formatMessage,
@@ -12,19 +12,23 @@ const getLearnerHeaderMenu = (
 ) => ({
   mainMenu: [
     {
-      type: 'item',
-      href: '/',
+      type: "item",
+      href: "/",
       content: formatMessage(messages.course),
       isActive: true,
     },
-    ...(getConfig().ENABLE_PROGRAMS ? [{
-      type: 'item',
-      href: `${urls.programsUrl()}`,
-      content: formatMessage(messages.program),
-    }] : []),
+    ...(getConfig().ENABLE_PROGRAMS
+      ? [
+          {
+            type: "item",
+            href: `${urls.programsUrl()}`,
+            content: formatMessage(messages.program),
+          },
+        ]
+      : []),
     {
-      type: 'item',
-      href: `https://emi.aprende.gob.mx/courses`,
+      type: "item",
+      href: `${getConfig().LMS_BASE_USL}/courses`,
       content: formatMessage(messages.discoverNew),
       onClick: (e) => {
         exploreCoursesClick(e);
@@ -32,45 +36,52 @@ const getLearnerHeaderMenu = (
     },
   ],
   secondaryMenu: [
-    ...(getConfig().SUPPORT_URL ? [{
-      type: 'item',
-      href: `${getConfig().SUPPORT_URL}`,
-      content: formatMessage(messages.help),
-    }] : []),
+    ...(getConfig().SUPPORT_URL
+      ? [
+          {
+            type: "item",
+            href: `${getConfig().SUPPORT_URL}`,
+            content: formatMessage(messages.help),
+          },
+        ]
+      : []),
   ],
   userMenu: [
     {
-      heading: '',
+      heading: "",
       items: [
         {
-          type: 'item',
+          type: "item",
           href: `${getConfig().ACCOUNT_PROFILE_URL}/u/${authenticatedUser?.username}`,
           content: formatMessage(messages.profile),
         },
         {
-          type: 'item',
+          type: "item",
           href: `${getConfig().ACCOUNT_SETTINGS_URL}`,
           content: formatMessage(messages.account),
         },
-        ...(getConfig().ORDER_HISTORY_URL ? [{
-          type: 'item',
-          href: getConfig().ORDER_HISTORY_URL,
-          content: formatMessage(messages.orderHistory),
-        }] : []),
+        ...(getConfig().ORDER_HISTORY_URL
+          ? [
+              {
+                type: "item",
+                href: getConfig().ORDER_HISTORY_URL,
+                content: formatMessage(messages.orderHistory),
+              },
+            ]
+          : []),
       ],
     },
     {
-      heading: '',
+      heading: "",
       items: [
         {
-          type: 'item',
+          type: "item",
           href: `${getConfig().LOGOUT_URL}`,
           content: formatMessage(messages.signOut),
         },
       ],
     },
   ],
-}
-);
+});
 
 export default getLearnerHeaderMenu;
