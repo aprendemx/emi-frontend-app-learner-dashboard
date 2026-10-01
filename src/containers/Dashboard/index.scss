@@ -25,3 +25,209 @@
     }
   }
 }
+
+// ---- EMI: panel del alumno (sobrescribe a Ulmo) ----
+
+// -----------------------------------
+// Variables
+// -----------------------------------
+$color-dorado: #B17A2A;
+$gutter: var(--pgn-spacing-spacer-4);
+
+// -----------------------------------
+// Banner con glassmorphism & gradiente
+// -----------------------------------
+.dashboard-banner-bg {
+  --gradient-overlay: linear-gradient(
+    to right,
+    rgba(0,0,0,0.4),
+    rgba(0,0,0,0.1) 50%,
+    rgba(0,0,0,0.4)
+  );
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/5;
+  height: 170px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--banner-bg-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(1.5rem) brightness(0.7);
+    transform: scale(1.1);
+    z-index: 1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-overlay);
+    z-index: 2;
+  }
+}
+
+// -----------------------------------
+// Logo EMI
+// -----------------------------------
+.dashboard-logo {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  max-width: 25%;
+  z-index: 3;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &:hover {
+    transform: translateX(-50%) scale(1.05);
+    opacity: 1;
+  }
+}
+
+// -----------------------------------
+// Usuario (info del banner)
+// -----------------------------------
+.user-info-banner {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+}
+.user-avatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  background-color: #eee;
+  margin-right: 1rem;
+}
+.user-text {
+  color: #fff;
+  line-height: 1.2;
+  .user-name { font-size: 1.125rem; font-weight: 600; }
+  .user-email { font-size: 0.875rem; opacity: 0.8; }
+}
+
+// -----------------------------------
+// Contenedor principal
+// -----------------------------------
+.dashboard-content-container {
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
+}
+
+// -----------------------------------
+// Columnas de contenido
+// -----------------------------------
+.course-list-column {
+  padding: 0 $gutter;
+}
+
+// -----------------------------------
+// Loading spinner
+// -----------------------------------
+.course-list-loading {
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+// -----------------------------------
+// Navegación de tabs
+// -----------------------------------
+.dashboard-tabs {
+  display: flex;
+  gap: $gutter;
+  margin: 2rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+.dashboard-tab {
+  background: transparent;
+  border: 2px solid $color-dorado;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $color-dorado;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover { background: rgba($color-dorado,0.1); }
+  &.active { background: $color-dorado; color: #fff; }
+}
+
+// -----------------------------------
+// Placeholder
+// -----------------------------------
+.dashboard-placeholder {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background: #fafafa;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+}
+
+@media (--pgn-size-breakpoint-max-width-sm) {
+  .dashboard-banner-bg { height: 200px; }
+  .dashboard-logo { width: 100px; }
+  .course-list-column { padding: 0 var(--pgn-spacing-spacer-2); }
+  
+  .detail-item {
+    .detail-text {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// EMI: vista sin cursos (antes, estilos en línea en NoCoursesView)
+#no-courses-content-view {
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  margin: 2rem !important;          // gana a la utilidad mb-4.5 de Paragon
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+
+  img { filter: brightness(1.2) saturate(1.1); margin-bottom: 2rem; }
+
+  .h1 {
+    color: #5a122c; text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    text-align: center; margin-bottom: 1.5rem; font-size: 2.5rem; font-weight: 700;
+  }
+
+  p {
+    color: #8b1538; text-align: center; font-size: 1.2rem; margin-bottom: 2rem;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); max-width: 500px;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, rgba(90, 18, 44, 0.9), rgba(90, 18, 44, 1)) !important;
+    border: 1px solid rgba(90, 18, 44, 1) !important;
+    color: white !important;
+    border-radius: 16px; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 600;
+    box-shadow: 0 4px 15px rgba(90, 18, 44, 0.4);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; text-decoration: none;
+
+    &:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(90, 18, 44, 0.6); }
+  }
+}

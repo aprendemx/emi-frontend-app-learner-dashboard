@@ -1,52 +1,88 @@
-import React from 'react';
+// DashboardLayout.jsx
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Container, Col } from '@openedx/paragon';
+import { AppContext } from '@edx/frontend-platform/react';
 
-import { Container, Col, Row } from '@openedx/paragon';
-
-import WidgetSidebarSlot from 'plugin-slots/WidgetSidebarSlot';
-
-import hooks from './hooks';
+import bannerClassroom from 'assets/banner_classroom.jpg';
+import avatarIcon from 'assets/avatar.svg';
+import EMIlogo from 'assets/EMI_logo.png';
+import DownloadsCarousel from './DownloadsCarousel';  
+import Certificates from './Certificates';
+import './index.scss';
 
 export const columnConfig = {
-  courseList: {
-    withSidebar: {
-      lg: { span: 12, offset: 0 },
-      xl: { span: 8, offset: 0 },
-    },
-    noSidebar: {
-      lg: { span: 12, offset: 0 },
-      xl: { span: 12, offset: 0 },
-    },
-  },
-  sidebar: {
-    lg: { span: 12, offset: 0 },
-    xl: { span: 4, offset: 0 },
-  },
+  courseList: { xs: { span: 12 }, sm: { span: 12 }, md: { span: 12 }, lg: { span: 12 }, xl: { span: 12 } },
 };
 
 export const DashboardLayout = ({ children }) => {
-  const {
-    isCollapsed,
-    sidebarShowing,
-  } = hooks.useDashboardLayoutData();
+  const { authenticatedUser } = useContext(AppContext) || {};
+  const [activeTab, setActiveTab] = useState('my-courses');
 
-  const courseListColumnProps = sidebarShowing
-    ? columnConfig.courseList.withSidebar
-    : columnConfig.courseList.noSidebar;
+  const tabs = [
+    { id: 'my-courses', label: 'My Courses' },
+    { id: 'resource',   label: 'Resources' },
+    { id: 'certificates',label: 'Certificates' },
+  ];
 
   return (
-    <Container fluid size="xl">
-      <Row>
-        <Col {...courseListColumnProps} className="course-list-column">
-          {children}
-        </Col>
-        <Col {...columnConfig.sidebar} className={['sidebar-column', !isCollapsed && 'not-collapsed']}>
-          <WidgetSidebarSlot />
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      {/* BANNER SUPERIOR */}
+      <div
+        className="dashboard-banner-bg"
+        style={{ '--banner-bg-url': `url(${bannerClassroom})` }}
+      >
+        <img src={EMIlogo} alt="EMI Logo" className="dashboard-logo" />
+
+        {authenticatedUser && (
+          <div className="user-info-banner">
+            <img src={avatarIcon} alt="Avatar" className="user-avatar" />
+            <div className="user-text">
+              <div className="user-name">
+                {authenticatedUser.full_name || authenticatedUser.username}
+              </div>
+              <div className="user-email">{authenticatedUser.email}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <Container fluid size="xl" className="dashboard-content-container">
+        {/* TABS */}
+        <nav className="dashboard-tabs">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              className={`dashboard-tab ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* CONTENIDO SEGÚN TAB ACTIVA */}
+        {activeTab === 'my-courses' && (
+          <Col {...columnConfig.courseList} className="course-list-column">
+            {children}
+          </Col>
+        )}
+
+        {activeTab === 'downloads' && (
+          <Col {...columnConfig.courseList} className="course-list-column">
+            <DownloadsCarousel />
+          </Col>
+        )}
+        {activeTab === 'certificates' && (
+          <Col {...columnConfig.courseList} className="course-list-column">
+            <Certificates />
+          </Col>
+        )}
+      </Container>
+    </div>
   );
 };
+
 DashboardLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };

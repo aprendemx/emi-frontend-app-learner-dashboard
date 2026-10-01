@@ -24,7 +24,7 @@ const getLearnerHeaderMenu = (
     }] : []),
     ...(!getConfig().NON_BROWSABLE_COURSES ? [{
       type: 'item',
-      href: `${urls.baseAppUrl(courseSearchUrl)}`,
+      href: `${getConfig().LMS_BASE_URL}/courses`, // EMI: catálogo del LMS
       content: formatMessage(messages.discoverNew),
       onClick: (e) => {
         exploreCoursesClick(e);

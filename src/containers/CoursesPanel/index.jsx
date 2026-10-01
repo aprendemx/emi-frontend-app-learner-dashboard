@@ -26,10 +26,41 @@ export const CoursesPanel = () => {
   const courseListData = useCourseListData();
   return (
     <div className="course-list-container">
-      <div className="course-list-heading-container">
-        <h2 className="course-list-title">{formatMessage(messages.myCourses)}</h2>
-        <div className="course-filter-controls-container">
-          <CourseFilterControls {...courseListData.filterOptions} />
+      <div 
+        className="course-list-heading-container"
+        style={{
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(15px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '16px',
+          padding: '1.5rem',
+          marginBottom: '2rem',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <h2 
+          className="course-list-title"
+          style={{
+            color: '#5a122c',
+            textShadow: '0 2px 4px rgba(255, 255, 255, 0.8)',
+            margin: '0',
+            fontSize: '2rem',
+            fontWeight: '700'
+          }}
+        >
+          {formatMessage(messages.myCourses)}
+        </h2>
+        <div 
+          className="course-filter-controls-container"
+          style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '12px',
+            padding: '1rem'
+          }}
+        >
+          {/*<CourseFilterControls {...courseListData.filterOptions} />*/}
         </div>
       </div>
       {hasCourses ? <CourseListSlot courseListData={courseListData} /> : <NoCoursesViewSlot />}

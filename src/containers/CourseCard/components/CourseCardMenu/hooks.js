@@ -41,7 +41,7 @@ export const useOptionVisibility = (cardId) => {
   const { twitter, facebook } = reduxHooks.useCardSocialSettingsData(cardId);
   const { isEarned } = reduxHooks.useCardCertificateData(cardId);
 
-  const shouldShowUnenrollItem = isEnrolled && !isEarned;
+  const shouldShowUnenrollItem = false; // EMI: sin baja de cursos desde el panel
   const shouldShowDropdown = (
     shouldShowUnenrollItem
     || isEmailEnabled
